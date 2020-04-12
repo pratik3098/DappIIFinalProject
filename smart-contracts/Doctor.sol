@@ -1,5 +1,5 @@
 pragma solidity ^0.6.0;
-contract Patient{
+contract Doctor{
   address owner;
   mapping(address=> uint) patients;
   mapping(address=>mapping(uint=>uint)) assignPeriod;
@@ -22,11 +22,14 @@ contract Patient{
   
   function addEmr(address _patientAddress, bytes32 _emr) public isOwner {
       require(verifySender(_patientAddress), "Error: Invalid address");
-  
+      Patient patient = Patient(_patientAddress);
+      patient.addVerifiedEmr(_emr,address(this),keccak256(abi.encodePacked(_emr,address(this),now)));
   }
   
-   function addPrescription(address _patientAddress, bytes32 _emr) public isOwner {
+   function addPrescription(address _patientAddress, bytes32 _prescription) public isOwner {
       require(verifySender(_patientAddress), "Error: Invalid address");
+      Patient patient = Patient(_patientAddress);
+      patient.addVerifiedPrescription(_prescription,address(this),keccak256(abi.encodePacked(_prescription,address(this),now)));
   
   }
   
@@ -46,4 +49,9 @@ contract Patient{
       _;
   }
  
+}
+
+interface Patient {
+      function addVerifiedEmr(bytes32 _emr, address _doctorAddress,bytes32 _sign) external;
+      function addVerifiedPrescription(bytes32 _prescription, address _doctorAddress, bytes32 _sign) external;
 }

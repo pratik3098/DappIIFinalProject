@@ -1,19 +1,18 @@
 pragma solidity ^0.6.0;
-contract Patient{
+contract Pharmacy{
   address owner;
   mapping(bytes32=>address) disprensedPrescriptions;
   constructor(address _owner) public {
       owner= _owner;
   }
   
- 
-  function verifyPrescription( address _patientAddress) public isOwner {
-      require(verifySender(_patientAddress), "Error: Invalid address");
- 
-  }
+
   
- function disprensePrescriptions( address _patientAddress, bytes32 _pres) public isOwner {
+ function disprensePrescriptions( address _patientAddress, bytes32 _pres) public  isOwner {
       require(verifySender(_patientAddress), "Error: Invalid address");
+      Patient patient = Patient(_patientAddress);
+      require(patient.isPresVerified(_pres), "Error: Prescription not verified");
+      
   }
   
   
@@ -34,4 +33,10 @@ contract Patient{
       _;
   }
  
+ 
+}
+
+
+interface Patient {
+      function isPresVerified(bytes32 _prescription) external view returns(bool);
 }
