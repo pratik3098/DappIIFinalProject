@@ -63,9 +63,3 @@ exports.resetPassword=async function(email){
     })
 } 
 
-
-this.resetPassword("pratik309dsdsdsdsddsd8@gmail.com").then(res=>{
-    console.log(res)
-}).catch(err=>{
-    console.log(err)
-})

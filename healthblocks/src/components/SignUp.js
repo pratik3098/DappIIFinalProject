@@ -12,7 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -85,6 +87,9 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
+            <NativeSelects></NativeSelects>
+            </Grid>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -139,3 +144,46 @@ export default function SignUp() {
   );
 }
 
+function NativeSelects() {
+  
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    type: ""
+  });
+
+  const handleChange = event => {
+    const name = event.target.name;
+    setState({
+      ...state,
+      [name]: event.target.value
+    });
+  };
+
+  return (
+    <div>
+      <FormControl 
+         variant="outlined"
+         fullWidth
+         className={classes.formControl}>
+        <InputLabel
+         required
+        htmlFor="outlined-age-native-simple">Type</InputLabel>
+        <Select
+          native
+          value={state.type}
+          onChange={handleChange}
+          label="Type"
+          inputProps={{
+            name: "type",
+            id: "outlined-age-native-simple"
+          }}
+        >
+          <option aria-label="None" value="" />
+          <option value={10}>Patient</option>
+          <option value={20}>Doctor</option>
+          <option value={30}>Pharmacy</option>
+        </Select>
+      </FormControl>
+    </div>
+  );
+}
