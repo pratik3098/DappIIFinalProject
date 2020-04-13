@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import SignIn from './components/SignIn.js';
 import SignUp from './components/SignUp.js';
-import ApprovalTable from './components/adminApproval.js'
+import ApprovalApp from './components/adminApproval.js'
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -22,16 +22,16 @@ export default function App() {
             <SignIn />
           </Route>
           <Route path="/admin">
-            <ApprovalTable/>
+            <ApprovalApp/>
           </Route>
-          <Route path="/signup">
+          <Route path="/signup">s
             <SignUp />
           </Route>
           <Route path="/submit">
             <SignIn />
           </Route>
           <Route path="/">
-            <SignUp />
+            <ApprovalApp />
           </Route>
         </Switch>
       </div>
