@@ -30,3 +30,7 @@ app.listen(config.port,()=>{ console.log("Server is running on port: "+config.po
 app.get('/',(req,res,next)=>{
    res.render("index",{val:"Server connected successfully @"+config.host+":"+config.port})
 })
+
+app.post('/auth',(req,res,next)=>{
+    res.render("index",{val:"Server connected successfully @"+config.host+":"+config.port})
+ })
