@@ -83,7 +83,7 @@ export function ApprovalTable() {
           <TableRow>
             <TableCell align="center" className={classes.column}>Email</TableCell>
             <TableCell align="center" className={classes.column}>Name</TableCell>
-            <TableCell align="center" className={classes.column}> Type</TableCell>
+            <TableCell align="center" className={classes.column}>Type</TableCell>
             <TableCell align="center" className={classes.column}>Affiliation</TableCell>
             <TableCell align="center" className={classes.column}>MINC</TableCell>
             <TableCell align="center" className={classes.column}>Creation Date</TableCell>
@@ -93,9 +93,7 @@ export function ApprovalTable() {
         <TableBody>
           {rows.map(row => (
             <TableRow key={row.email}>
-                 <TableCell component="th" scope="row">
-                {row.email}
-              </TableCell>
+             <TableCell component="th" scope="row">{row.email} </TableCell>
               <TableCell align="center"><PopoverPopupDetails dt={row.details}></PopoverPopupDetails></TableCell>`   `
               <TableCell align="center">{row.type}</TableCell>
               <TableCell align="center"><PopoverPopupState dt={row.affiliation}></PopoverPopupState></TableCell>
