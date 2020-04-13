@@ -50,7 +50,51 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-
+  const [state, setState] = React.useState({
+    type: ""
+  });
+  function NativeSelects() {
+  
+    const classes = useStyles();
+  
+  
+    const handleChange = event => {
+      const name = event.target.name;
+      setState({
+        ...state,
+        [name]: event.target.value
+      });
+    };
+  
+    return (
+      <div>
+        <FormControl 
+           variant="outlined"
+           fullWidth
+           className={classes.formControl}>
+          <InputLabel
+           required
+          htmlFor="outlined-age-native-simple">Type</InputLabel>
+          <Select
+            native
+            value={state.type}
+            onChange={handleChange}
+            label="Type"
+            inputProps={{
+              name: "type",
+              id: "outlined-age-native-simple"
+            }}
+          >
+            <option aria-label="None" value="" />
+            <option value={10}>Patient</option>
+            <option value={20}>Doctor</option>
+            <option value={30}>Pharmacy</option>
+          </Select>
+        </FormControl>
+      </div>
+    );
+  }
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -144,46 +188,3 @@ export default function SignUp() {
   );
 }
 
-function NativeSelects() {
-  
-  const classes = useStyles();
-  const [state, setState] = React.useState({
-    type: ""
-  });
-
-  const handleChange = event => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value
-    });
-  };
-
-  return (
-    <div>
-      <FormControl 
-         variant="outlined"
-         fullWidth
-         className={classes.formControl}>
-        <InputLabel
-         required
-        htmlFor="outlined-age-native-simple">Type</InputLabel>
-        <Select
-          native
-          value={state.type}
-          onChange={handleChange}
-          label="Type"
-          inputProps={{
-            name: "type",
-            id: "outlined-age-native-simple"
-          }}
-        >
-          <option aria-label="None" value="" />
-          <option value={10}>Patient</option>
-          <option value={20}>Doctor</option>
-          <option value={30}>Pharmacy</option>
-        </Select>
-      </FormControl>
-    </div>
-  );
-}
