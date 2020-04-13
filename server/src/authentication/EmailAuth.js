@@ -1,5 +1,5 @@
 const firebase = require("firebase")
-const firebaseConfig=require("../configData.js").firebaseConfig
+const firebaseConfig=require("../config/configData.js").firebaseConfig
 firebase.initializeApp(firebaseConfig)
 
  exports.intialSignUpEmail=async function (email, password){
@@ -51,3 +51,21 @@ exports.signInEmail= async function  (email, password){
 }
 
 
+
+exports.resetPassword=async function(email){
+    return new Promise((resolve,reject)=>{
+        firebase.auth().sendPasswordResetEmail(email).then(res=>{
+            resolve("Email sent: success")
+        }).catch(err=>{
+            reject("Email sent: Email sent: There is no user record corresponding to this identifier.")
+
+        })
+    })
+} 
+
+
+this.resetPassword("pratik309dsdsdsdsddsd8@gmail.com").then(res=>{
+    console.log(res)
+}).catch(err=>{
+    console.log(err)
+})
