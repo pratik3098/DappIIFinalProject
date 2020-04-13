@@ -15,6 +15,9 @@ import Container from '@material-ui/core/Container';
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import Regex from "regex";
+const emailvalidationPattern= `^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$;`
+const regex = new Regex(emailvalidationPattern);
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -86,15 +89,20 @@ export default function SignUp() {
             }}
           >
             <option aria-label="None" value="" />
-            <option value={10}>Patient</option>
-            <option value={20}>Doctor</option>
-            <option value={30}>Pharmacy</option>
+            <option value={"Patient"}>Patient</option>
+            <option value={"Doctor"}>Doctor</option>
+            <option value={"Pharmacy"}>Pharmacy</option>
           </Select>
         </FormControl>
       </div>
     );
   }
   
+  const onClickRedirect= event =>{
+   
+    console.log("Type: "+state["type"])
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -105,7 +113,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form method="POST" className={classes.form} noValidate action="/submit">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -117,6 +125,7 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -164,11 +173,12 @@ export default function SignUp() {
             </Grid>
           </Grid>
           <Button
-            type="submit"
+           type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+        
           >
             Sign Up
           </Button>
