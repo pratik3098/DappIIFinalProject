@@ -4,8 +4,10 @@ const bodyParser= require('body-parser')
 const morgan= require('morgan')
 const upload =require('express-fileupload')
 const moment=require('moment')
-const config = require('./configData.js')
+const config = require('../config/configData.js')
 const app = express()
+const authRouter= require("../routes/auth.js")
+const indexRouter= require("../routes/index.js")
 app.set('title','facedrive db')
 app.set('view engine','hbs')
 app.set('views',path.join(__dirname,"../views"))
@@ -19,6 +21,8 @@ app.use(function(req,res,next){
     res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept , enctype")
     next()
 })
+app.use('/auth',  authRouter)
+app.use('/',  indexRouter)
 app.use(upload({
     useTempFiles : true,
     tempFileDir : path.resolve(__dirname,'../tmp')
@@ -27,10 +31,3 @@ app.listen(config.port,()=>{ console.log("Server is running on port: "+config.po
 
 
 
-app.get('/',(req,res,next)=>{
-   res.render("index",{val:"Server connected successfully @"+config.host+":"+config.port})
-})
-
-app.post('/auth',(req,res,next)=>{
-    res.render("index",{val:"Server connected successfully @"+config.host+":"+config.port})
- })

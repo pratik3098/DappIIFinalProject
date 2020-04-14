@@ -1,5 +1,5 @@
 const firebase = require("firebase")
-const firebaseConfig=require("../config/configData.js").firebaseConfig
+const firebaseConfig=require("../../config/configData.js").firebaseConfig
 firebase.initializeApp(firebaseConfig)
 
  exports.intialSignUpEmail=async function (email, password){
