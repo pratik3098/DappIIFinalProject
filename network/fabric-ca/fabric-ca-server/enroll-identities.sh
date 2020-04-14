@@ -27,13 +27,13 @@ fabric-ca-client certificate list --id orderer.healthblocks --store msp/admincer
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/authenticator.healthblocks
 fabric-ca-client enroll -u http://authenticator.healthblocks:pw@localhost:7054
 
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/distributor.healthblocks 
+export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/patient.healthblocks 
 fabric-ca-client enroll -u http://patient.healthblocks:pw@localhost:7054
 
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/distributor.healthblocks 
+export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/doctor.healthblocks 
 fabric-ca-client enroll -u http://doctor.healthblocks:pw@localhost:7054
 
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/distributor.healthblocks 
+export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/pharmacy.healthblocks 
 fabric-ca-client enroll -u http://pharmacy.healthblocks:pw@localhost:7054
 
 
