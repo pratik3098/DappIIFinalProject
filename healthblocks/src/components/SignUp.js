@@ -91,7 +91,7 @@ export default function SignUp() {
             <option aria-label="None" value="" />
             <option value={"Patient"}>Patient</option>
             <option value={"Doctor"}>Doctor</option>
-            <option value={"Pharmacy"}>Pharmacy</option>
+            <option value={"Pharmacy"}>Pharmacist</option>
           </Select>
         </FormControl>
       </div>
@@ -178,7 +178,6 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-        
           >
             Sign Up
           </Button>
