@@ -131,7 +131,7 @@ registry:
   identities:
      - name: admin.healthblocks
        pass: adminpw
-       type: admin
+       type: client
        affiliation: ""
        attrs:
           hf.Registrar.Roles: "*"
@@ -318,7 +318,7 @@ csr:
         O: Hyperledger
         OU: Fabric
    hosts:
-     - 4324c6486b9e
+     - 9c2c948910ef
      - localhost
    ca:
       expiry: 131400h
