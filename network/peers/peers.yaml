@@ -1,0 +1,349 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+version: '2'
+
+services:
+  peer:
+    image: hyperledger/fabric-peer:1.4.1
+    tty: true
+    restart: always
+    environment:
+      - CORE_PEER_LOCALMSPID=HealthblocksMSP
+      - CORE_PEER_ADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODE_LISTENADDRESS=chaincode:7052
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
+      - ORDERER_ADDRESS=orderer.healthblocks.com:7050
+      - HEALTHBLOCKSPLATFROM_CHANNEL_BLOCK_0=/opt/gopath/src/github.com/hyperledger/fabric/peer/healthblocksplatformchannel_0.block
+      - HEALTHBLOCKSPLATFROM_CHANNEL_BLOCK=/opt/gopath/src/github.com/hyperledger/fabric/peer/healthblocksplatformchannel.block
+      - CHANNEL_TX_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/peer_files/healthblocksPlatform-channel.tx
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_NETWORKID=healthblocksPlatform-network
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=false
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_ADDRESSAUTODETECT=true    
+      - CORE_CHAINCODE_LOGGING_SHIM=INFO
+      - CORE_METRICS_ENABLED=false
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: chmod 755 * && peer node start 2> peer.log &
+    networks:
+      - orderer_backend_network
+    volumes:
+    -  /var/run/:/host/var/run/
+    - ./peer_files:/opt/gopath/src/github.com/hyperledger/fabric/peer/peer_files
+
+  chaincode:
+    image: hyperledger/fabric-ccenv:1.4.1
+    tty: true
+    restart: always
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=peer
+      - CORE_PEER_ADDRESS=peer:7051
+      - CORE_PEER_LOCALMSPID=HealthblocksMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp
+      - CHAINCODE_LOGGING_LEVEL=info
+    working_dir: /opt/gopath/src/chaincode
+    command: /bin/bash -c 'sleep 6000000'
+    networks:
+      - orderer_backend_network
+    volumes:
+        -  /var/run/:/host/var/run/
+
+  couchdb: 
+    image: hyperledger/fabric-couchdb:0.4.15
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    volumes:
+      -  /var/run/:/host/var/run/
+    networks:
+      - orderer_backend_network
+  
+  couchdb.admin.healthblocks.com:
+    container_name: couchdb.admin.healthblocks.com
+    extends:
+      service: couchdb
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 6984:5984
+    
+  couchdb.patient.healthblocks.com:
+    container_name: couchdb.patient.healthblocks.com
+    extends:
+      service: couchdb
+    ports:
+      - 7984:5984
+  
+  couchdb.pharmacy.healthblocks.com:
+    container_name: couchdb.pharmacy.healthblocks.com
+    extends:
+      service: couchdb
+    ports:
+      - 8984:5984
+  
+  couchdb.doctor.healthblocks.com:
+    container_name: couchdb.doctor.healthblocks.com
+    extends:
+      service: couchdb
+    ports:
+      - 9984:5984
+    
+  couchdb.authenticator.healthblocks.com:
+    container_name: couchdb.authenticator.healthblocks.com
+    extends:
+      service: couchdb
+    ports:
+      - 10984:5984
+
+ 
+  admin.healthblocks.com:
+    container_name: admin.healthblocks.com
+    extends:
+      service: peer
+    environment:
+      - CORE_PEER_ID=admin.healthblocks
+      - CORE_PEER_CHAINCODE_LISTENADDRESS=chaincode.admin.healthblocks.com:7052
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.admin.healthblocks.com:5984
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=admin.healthblocks.com:7051
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    command: peer node start 
+    links:
+      - couchdb.admin.healthblocks.com
+    volumes:
+        - ./peer_files:/opt/gopath/src/github.com/hyperledger/fabric/peer/peer_files
+        - ./msps/admin.healthblocks/msp:/etc/hyperledger/fabric/msp
+        -  admin.healthblocks.com:/var/hyperledger/production
+    ports:
+      - 6051:7051
+      - 6055:7055
+      - 6053:7053
+    depends_on:
+     - couchdb.admin.healthblocks.com
+
+  patient.healthblocks.com:
+    container_name: patient.healthblocks.com
+    extends:
+      service: peer
+    environment:
+      - CORE_PEER_ID=patient.healthblocks
+      - CORE_PEER_ADDRESS=patient.healthblocks.com:7051
+      - CORE_PEER_CHAINCODE_LISTENADDRESS=chaincode.patient.healthblocks.com:7052
+      - CORE_PEER_CHAINCODE_ADDRESS=chaincode.patient.healthblocks.com:7052
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.patient.healthblocks.com:5984
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=patient.healthblocks.com:7051
+    command: ./peer_files/launch-peer.sh
+    links:
+      - couchdb.patient.healthblocks.com
+    volumes:
+        - ./msps/patient.healthblocks/msp:/etc/hyperledger/fabric/msp
+        -  patient.healthblocks.com:/var/hyperledger/production
+    ports:
+      - 7051:7051
+      - 7053:7053
+    depends_on:
+     - couchdb.patient.healthblocks.com
+    
+  pharmacy.healthblocks.com:
+    container_name: pharmacy.healthblocks.com
+    extends:
+      service: peer
+    environment:
+      - CORE_PEER_ID=pharmacy.healthblocks
+      - CORE_PEER_ADDRESS=pharmacy.healthblocks.com:7051
+      - CORE_PEER_CHAINCODE_LISTENADDRESS=chaincode.pharmacy.healthblocks.com:7052
+      - CORE_PEER_CHAINCODE_ADDRESS=chaincode.pharmacy.healthblocks.com:7052
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.pharmacy.healthblocks.com:5984
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=pharmacy.healthblocks.com:7051
+    command: ./peer_files/launch-peer.sh
+    links:
+      - couchdb.pharmacy.healthblocks.com
+    volumes:
+        - ./msps/pharmacy.healthblocks/msp:/etc/hyperledger/fabric/msp
+        -  pharmacy.healthblocks.com:/var/hyperledger/production
+    ports:
+      - 8051:7051
+      - 8053:7053
+    depends_on:
+     - couchdb.pharmacy.healthblocks.com
+    
+  doctor.healthblocks.com:
+    container_name: doctor.healthblocks.com
+    extends:
+      service: peer
+    environment:
+      - CORE_PEER_ID=doctor.healthblocks
+      - CORE_PEER_ADDRESS=doctor.healthblocks.com:7051
+      - CORE_PEER_CHAINCODE_LISTENADDRESS=chaincode.doctor.healthblocks.com:7052
+      - CORE_PEER_CHAINCODE_ADDRESS=chaincode.doctor.healthblocks.com:7052
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.doctor.healthblocks.com:5984
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=doctor.healthblocks.com:7051
+    command: ./peer_files/launch-peer.sh
+    links:
+      - couchdb.doctor.healthblocks.com
+    volumes:
+        - ./msps/doctor.healthblocks/msp:/etc/hyperledger/fabric/msp
+        -  doctor.healthblocks.com:/var/hyperledger/production
+    ports:
+      - 9051:7051
+      - 9053:7053
+    depends_on:
+     - couchdb.doctor.healthblocks.com
+  
+
+  authenticator.healthblocks.com:
+    container_name: authenticator.healthblocks.com
+    extends:
+      service: peer
+    environment:
+      - CORE_PEER_ID=authenticator.healthblocks
+      - CORE_PEER_ADDRESS=authenticator.healthblocks.com:7051
+      - CORE_PEER_CHAINCODE_LISTENADDRESS=chaincode.authenticator.healthblocks.com:7052
+      - CORE_PEER_CHAINCODE_ADDRESS=chaincode.authenticator.healthblocks.com:7052
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.authenticator.healthblocks.com:5984
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=authenticator.healthblocks.com:7051
+    command: ./peer_files/launch-peer.sh
+
+    links:
+      - couchdb.authenticator.healthblocks.com
+    volumes:
+        - ./msps/authenticator.healthblocks/msp:/etc/hyperledger/fabric/msp
+        -  authenticator.healthblocks.com:/var/hyperledger/production
+    ports:
+        - 10051:7051
+        - 10053:7053
+    depends_on:
+        - couchdb.authenticator.healthblocks.com
+
+
+  chaincode.admin.healthblocks.com:
+    container_name: chaincode.admin.healthblocks.com
+    extends:
+      service: chaincode
+    environment:
+      - CORE_PEER_ID=admin.healthblocks
+      - CORE_PEER_ADDRESS=admin.healthblocks.com:7051
+
+    volumes:
+        - ./msps/admin.healthblocks/msp:/etc/hyperledger/msp
+    ports: 
+       - 6052:7052
+    depends_on:
+       - admin.healthblocks.com
+       - couchdb.admin.healthblocks.com
+   
+  chaincode.patient.healthblocks.com:
+    container_name: chaincode.patient.healthblocks.com
+    extends:
+      service: chaincode
+    environment:
+      - CORE_PEER_ID=patient.healthblocks
+      - CORE_PEER_ADDRESS=patient.healthblocks.com:7051
+    volumes:
+      - ./msps/patient.healthblocks/msp:/etc/hyperledger/msp
+    ports: 
+      - 7052:7052
+    depends_on:
+     - patient.healthblocks.com
+     - couchdb.patient.healthblocks.com
+    
+  chaincode.pharmacy.healthblocks.com:
+    container_name: chaincode.pharmacy.healthblocks.com
+    extends:
+      service: chaincode
+    environment:
+      - CORE_PEER_ID=pharmacy.healthblocks
+      - CORE_PEER_ADDRESS=pharmacy.healthblocks.com:7051
+    volumes:
+      - ./msps/pharmacy.healthblocks/msp:/etc/hyperledger/msp
+    ports: 
+      - 8052:7052
+    depends_on:
+     - pharmacy.healthblocks.com
+     - couchdb.pharmacy.healthblocks.com
+
+  chaincode.doctor.healthblocks.com:
+    container_name: chaincode.doctor.healthblocks.com
+    extends:
+      service: chaincode
+    environment:
+      - CORE_PEER_ID=doctor.healthblocks
+      - CORE_PEER_ADDRESS=doctor.healthblocks.com:7051
+    volumes:
+      - ./msps/doctor.healthblocks/msp:/etc/hyperledger/msp
+    ports: 
+      - 9052:7052
+    depends_on:
+     - doctor.healthblocks.com
+     - couchdb.doctor.healthblocks.com
+
+  chaincode.authenticator.healthblocks.com:
+    container_name: chaincode.authenticator.healthblocks.com
+    extends:
+      service: chaincode
+    environment:
+      - CORE_PEER_ID=authenticator.healthblocks
+      - CORE_PEER_ADDRESS=authenticator.healthblocks.com:7051
+    volumes:
+      - ./msps/authenticator.healthblocks/msp:/etc/hyperledger/msp
+    ports: 
+      - 10052:7052
+    depends_on:
+      - authenticator.healthblocks.com
+      - couchdb.authenticator.healthblocks.com
+
+
+  cli.healthblocks.com:
+    container_name: cli.healthblocks.com
+    image: hyperledger/fabric-tools
+    tty: true
+    environment:
+      - HEALTHBLOCKSPLATFROM_CHANNEL_BLOCK_0=./healthblocksplatformchannel_0.block
+      - CHANNEL_TX_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/peer_files/healthblocksPlatform-channel.tx
+      - ORDERER_ADDRESS=orderer.healthblocks.com:7050
+      - CORE_PEER_ID=cli.healthblocks.com
+      - CORE_PEER_ADDRESS=patient.healthblocks.com:7051
+      - CORE_PEER_LOCALMSPID=HealthblocksMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=info
+      - CORE_CHAINCODE_KEEPALIVE=10
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    networks:
+      - orderer_backend_network
+    volumes:
+        -  /var/run/:/host/var/run/
+        - ./peer_files/:/opt/gopath/src/github.com/hyperledger/fabric/peer/peer_files
+        - ./msps/admin.healthblocks/msp:/etc/hyperledger/msp
+
+networks:
+  orderer_backend_network:
+     external: true
+
+volumes:
+   authenticator.healthblocks.com:
+   
+   pharmacy.healthblocks.com:
+
+   patient.healthblocks.com:
+
+   doctor.healthblocks.com:
+
+   admin.healthblocks.com:
+
+
+   
