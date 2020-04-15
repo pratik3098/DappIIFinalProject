@@ -13,7 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import {server} from '../configData.js'
+import {server} from '../configData.js';
+import {
+  useHistory,
+  BrowserRouter as Router,
+} from "react-router-dom";
 
 
 
@@ -51,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const history = useHistory()
   const classes = useStyles();
   const[email, setEmail]=React.useState('')
   const[password, setPassowrd]= React.useState('')
@@ -70,6 +75,8 @@ export default function SignIn() {
       email: email,
       password: password
     })
+      history.push("/admin")
+   
   }
   return (
     <Container component="main" maxWidth="xs">

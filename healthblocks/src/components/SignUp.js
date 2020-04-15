@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,6 +16,14 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Regex from "regex";
+import axios from 'axios';
+import {
+  useHistory,
+  Route,
+  BrowserRouter as Router,
+  useParams
+} from "react-router-dom";
+import {server} from '../configData.js'
 const emailvalidationPattern= `^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$;`
 const regex = new Regex(emailvalidationPattern);
 function Copyright() {
@@ -52,10 +60,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  const classes = useStyles();
+  const classes = useStyles()
+  const history = useHistory()
+  const {dt}= useParams()
   const [state, setState] = React.useState({
     type: ""
   });
+
+  const [firstName, setFirstName]=React.useState('')
+  const [lastName, setLastName]=React.useState('')
+  const [type, setType]=React.useState('')
+  const[email,setEmail]=React.useState('')
+  const[password, setPassword]=React.useState('')
   function NativeSelects() {
   
     const classes = useStyles();
@@ -67,6 +83,7 @@ export default function SignUp() {
         ...state,
         [name]: event.target.value
       });
+      setType(event.target.value)
     };
   
     return (
@@ -98,9 +115,28 @@ export default function SignUp() {
     );
   }
   
-  const onClickRedirect= event =>{
-   
-    console.log("Type: "+state["type"])
+  const OnSubmitForm= (ev) =>{
+  
+   let  data= {
+      email: email,
+      password: password,
+      fname: firstName,
+      lname:lastName,
+      type: type
+    }
+    
+    axios.post('http://'+server.host+':'+server.port+'/auth',{
+      data: data
+    })
+
+    // if(type==="Doctor" || type==="Pharmacy")
+      history.push({pathname: "/signupform", state: data})
+    // else if (type==="Patient")
+    // history.push("/dashboard")
+
+
+    
+  
   }
 
   return (
@@ -113,7 +149,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form method="POST" className={classes.form} noValidate action="/submit">
+        <form  className={classes.form} noValidate >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -121,6 +157,7 @@ export default function SignUp() {
                 name="firstName"
                 variant="outlined"
                 required
+                onChange={(ev)=>{ setFirstName(ev.target.value)}}
                 fullWidth
                 id="firstName"
                 label="First Name"
@@ -133,6 +170,7 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={(ev)=>{ setLastName(ev.target.value)}}
                 id="lastName"
                 label="Last Name"
                 name="lastName"
@@ -150,6 +188,7 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={(ev)=>{ setEmail(ev.target.value)}}
                 autoComplete="email"
               />
             </Grid>
@@ -162,6 +201,7 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={(ev)=>{ setPassword(ev.target.value)}}
                 autoComplete="current-password"
               />
             </Grid>
@@ -173,7 +213,7 @@ export default function SignUp() {
             </Grid>
           </Grid>
           <Button
-           type="submit"
+            onClick={OnSubmitForm}
             fullWidth
             variant="contained"
             color="primary"

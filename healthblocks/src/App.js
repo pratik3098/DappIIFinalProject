@@ -28,11 +28,14 @@ export default function App() {
           <Route path="/signup">
             <SignUp />
           </Route>
-          <Route path="/submit">
+          <Route path="/signupform">
+            <SignUpForm />
+          </Route>
+          <Route path="/dashboard">
             <SignIn />
           </Route>
           <Route path="/">
-            <SignIn />
+            <SignUp />
           </Route>
         </Switch>
       </div>

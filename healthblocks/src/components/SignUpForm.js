@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
       }
   }));
 
-export default function SignUpForm(dt){
-    
+export default function SignUpForm(data){
+    console.log(data)
     const classes = useStyles();
   const [state, setState] = React.useState({
     type: ""
@@ -121,7 +121,7 @@ const onClickRedirect= event =>{
                 autoComplete="email"
               />
             </Grid>
-            {(dt.type=="Doctor") ?
+            {(data.type=="Doctor") ?
             (<Grid item xs={12}>
               <TextField
                 variant="outlined"
