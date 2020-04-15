@@ -4,6 +4,7 @@ const config=require(path.resolve(__dirname,"../server/config/configData.js"))
 const Patient=require(path.resolve(__dirname, "./smartContracts/abi/Patient.js"))
 const Doctor=require(path.resolve(__dirname, "./smartContracts/abi/Doctor.js"))
 const Pharmacy=require(path.resolve(__dirname, "./smartContracts/abi/Pharmacy.js"))
+const Registry=require(path.resolve(__dirname, "./smartContracts/abi/Registry.js"))
 
 let wallet
 let abi
@@ -40,7 +41,24 @@ exports.deployContract= async function(type){
         factory.deploy().then(contract=>{
             contractAddress=contract.address
         }).then(contract=>{
-            contract.deployed().then(()=>{
+            contract.deployed().then((contract)=>{
+
+            let registryContract=new ethers.Contract(config.registryContract, Registry.abi, provider)
+            registryContract=registryContract.connect(new ethers.Wallet(config.wallet.privateKey, provider))
+            let tx
+            if(type=="Patient") 
+            registryContract.addPatient(contract.address).then(tx=>{
+                tx.wait()
+            })
+            else if(type="Doctor")
+            registryContract.addDoctor(contract.address).then(tx=>{
+                tx.wait()
+            })
+            else if(type="Pharmacy")
+            registryContract.addPharmacy(contract.address).then(tx=>{
+                tx.wait()
+            })
+            console.log(JSON.stringify(tx))
             console.log(contractAddress)
             resolve(contractAddress)
             })
