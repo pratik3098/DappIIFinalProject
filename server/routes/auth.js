@@ -4,6 +4,8 @@ const router = express.Router()
 const config = require('../config/configData.js')
 
 router.post('/',function(req,res, next){
+  console.log(req.body.email)
+  console.log(req.body.password)
   res.render("index", {val: req.body.name})
 })
 

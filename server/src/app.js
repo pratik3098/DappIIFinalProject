@@ -12,7 +12,7 @@ app.set('title','facedrive db')
 app.set('view engine','hbs')
 app.set('views',path.join(__dirname,"../views"))
 app.use(express.static("../views"))
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(function(req,res,next){

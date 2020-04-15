@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import {server} from '../configData.js'
 
 
 
@@ -50,7 +52,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  
+  const[email, setEmail]=React.useState('')
+  const[password, setPassowrd]= React.useState('')
+
+  const onChangeEmail=(event)=>{
+    setEmail(event.target.value)
+
+  }
+  const onChangePassword=(ev)=>{
+    setPassowrd(ev.target.value)
+
+  }
+
+  const onClickSubmit=(ev)=>{
+
+    axios.post('http://'+server.host+':'+server.port+'/auth',{
+      email: email,
+      password: password
+    })
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -61,7 +81,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate >
           <TextField
             variant="outlined"
             margin="normal"
@@ -70,6 +90,7 @@ export default function SignIn() {
             id="email"
             label="Email Address"
             name="email"
+            onChange={onChangeEmail}
             autoComplete="email"
             autoFocus
           />
@@ -81,6 +102,7 @@ export default function SignIn() {
             name="password"
             label="Password"
             type="password"
+            onChange={onChangePassword}
             id="password"
             autoComplete="current-password"
           />
@@ -89,7 +111,7 @@ export default function SignIn() {
             label="Remember me"
           />
           <Button
-            type="submit"
+            onClick={onClickSubmit}
             fullWidth
             variant="contained"
             color="primary"

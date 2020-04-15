@@ -32,7 +32,7 @@ export default function App() {
             <SignIn />
           </Route>
           <Route path="/">
-            <SignUpForm />
+            <SignIn />
           </Route>
         </Switch>
       </div>

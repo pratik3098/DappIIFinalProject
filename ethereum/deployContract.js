@@ -45,20 +45,22 @@ exports.deployContract= async function(type){
 
             let registryContract=new ethers.Contract(config.registryContract, Registry.abi, provider)
             registryContract=registryContract.connect(new ethers.Wallet(config.wallet.privateKey, provider))
-            let tx
             if(type=="Patient") 
             registryContract.addPatient(contract.address).then(tx=>{
                 tx.wait()
+                console.log(JSON.stringify(tx))
             })
             else if(type="Doctor")
             registryContract.addDoctor(contract.address).then(tx=>{
                 tx.wait()
+                console.log(JSON.stringify(tx))
             })
             else if(type="Pharmacy")
             registryContract.addPharmacy(contract.address).then(tx=>{
                 tx.wait()
+                console.log(JSON.stringify(tx))
             })
-            console.log(JSON.stringify(tx))
+            
             console.log(contractAddress)
             resolve(contractAddress)
             })

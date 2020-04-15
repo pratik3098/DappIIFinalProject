@@ -1,2 +1,4 @@
-exports.host= 'localhost'
-exports.port= 8080  
+exports.server={
+    host: 'localhost',
+    port: 8080 
+}
