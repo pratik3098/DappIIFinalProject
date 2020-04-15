@@ -14,3 +14,5 @@ exports.wallet={
   network: "kovan",
 
 }
+
+exports.registryContract="0x05dCE7DaB2447EA6F14dA36E2Ee1AC57549395E0"

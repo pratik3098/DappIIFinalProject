@@ -49,11 +49,13 @@ contract Patient{
   
    function isPresVerified(bytes32 _prescription) public view returns(bool) {
       return (verifiedPres[_prescription] !=0);
+      
   }
   
-  function verifySender(address _doctorAddress) public pure returns (bool) {
+ function verifySender(address _doctorAddress) public view returns (bool) {
       require(_doctorAddress !=address(0), "Error: Invalid doctor address.");
-      return true;
+      Registry registry= Registry(0x05dCE7DaB2447EA6F14dA36E2Ee1AC57549395E0);
+      return registry.isDoctor(_doctorAddress);
   }
   
  
@@ -62,4 +64,8 @@ contract Patient{
       _;
   }
  
+}
+
+interface Registry {
+      function isDoctor(address doctorAddress) external view returns(bool);
 }
