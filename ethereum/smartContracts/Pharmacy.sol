@@ -2,6 +2,7 @@ pragma solidity ^0.6.0;
 contract Pharmacy{
   address owner;
   mapping(bytes32=>address) disprensedPrescriptions;
+  event dispensePrescription(bytes32 _pres, address _patient) ;
   constructor(address _owner) public {
       owner= _owner;
   }
@@ -12,7 +13,8 @@ contract Pharmacy{
       require(verifySender(_patientAddress), "Error: Invalid address");
       Patient patient = Patient(_patientAddress);
       require(patient.isPresVerified(_pres), "Error: Prescription not verified");
-      
+      disprensedPrescriptions[_pres]=_patientAddress;
+      emit dispensePrescription(_pres,_patientAddress);
   }
   
   

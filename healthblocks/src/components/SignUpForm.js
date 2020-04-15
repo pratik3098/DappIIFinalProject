@@ -67,16 +67,6 @@ const onClickRedirect= event =>{
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-     <Grid direction="column">
-      <Box >
-      <ImageAvatars ></ImageAvatars>
-      </Box>
-      </Grid>
-      <Grid direction="column">
-      <Box >
-      <FileUpload> </FileUpload>
-      </Box> 
-      </Grid>
         
         <form method="POST" className={classes.form} noValidate action="/submit">
           <Grid container spacing={2}>
