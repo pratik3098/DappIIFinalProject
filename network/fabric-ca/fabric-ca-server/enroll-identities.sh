@@ -25,16 +25,16 @@ fabric-ca-client register -d --id.name orderer.healthblocks --id.type admin --id
 fabric-ca-client certificate list --id orderer.healthblocks --store msp/admincerts
 # 6. Enrolling identities
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/authenticator.healthblocks
-fabric-ca-client enroll -u http://authenticator.healthblocks:pw@localhost:7054
+fabric-ca-client enroll -u http://authenticator.healthblocks:authpw@localhost:7054
 
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/patient.healthblocks 
-fabric-ca-client enroll -u http://patient.healthblocks:pw@localhost:7054
+fabric-ca-client enroll -u http://patient.healthblocks:patientpw@localhost:7054
 
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/doctor.healthblocks 
-fabric-ca-client enroll -u http://doctor.healthblocks:pw@localhost:7054
+fabric-ca-client enroll -u http://doctor.healthblocks:doctorpw@localhost:7054
 
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/pharmacy.healthblocks 
-fabric-ca-client enroll -u http://pharmacy.healthblocks:pw@localhost:7054
+fabric-ca-client enroll -u http://pharmacy.healthblocks:pharmacypw@localhost:7054
 
 
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client/orderer.healthblocks
