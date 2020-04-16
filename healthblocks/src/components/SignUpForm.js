@@ -54,7 +54,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpForm(props){
     const history=useHistory()
-    
+    React.useEffect(() => {
+      document.title = 'HeathBlocks'
+    });
     const[data,setData]=React.useState(history.location.state.data)
     const[license,setLicense]=React.useState('')
     const classes = useStyles();

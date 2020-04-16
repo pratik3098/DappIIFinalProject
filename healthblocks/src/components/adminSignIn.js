@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AdminSignIn() {
+  React.useEffect(() => {
+    document.title = 'HeathBlocks'
+  });
   const history = useHistory()
   const classes = useStyles();
   const[email, setEmail]=React.useState('')

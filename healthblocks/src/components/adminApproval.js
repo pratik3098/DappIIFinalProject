@@ -36,28 +36,13 @@ const useStyles = makeStyles({
   }
 });
 
-const rows = [
-  { 
-    
-    email: "pratik3098@gmail.com",
-    details: {
-        name: "Pratik Patil",
-        dob:  "30/09/1998",
-        practiseStart: "1/12/2001"
-    },
-    type: "Doctor",
-    affiliation: {
-    name: "SunnyBrook Hospital",
-    address: "2075 Bayview Ave, Toronto, ON M4N 3M5"
-  },
-    minc: "CAMD-1234-5679",
-    created: "2013-03-01",
-    approval: ""
-  }
-];
 
 
 export default function AprovalApp(){
+ 
+  React.useEffect(() => {
+    document.title = 'HeathBlocks'
+  });
     const classes = useStyles();
     return(
         <div>
@@ -75,7 +60,25 @@ export default function AprovalApp(){
 }
 export function ApprovalTable() {
   const classes = useStyles();
-
+  const [rows,setRows]= React.useState([
+    { 
+      
+      email: "pratik3098@gmail.com",
+      details: {
+          name: "Pratik Patil",
+          dob:  "30/09/1998",
+          practiseStart: "1/12/2001"
+      },
+      type: "Doctor",
+      affiliation: {
+      name: "SunnyBrook Hospital",
+      address: "2075 Bayview Ave, Toronto, ON M4N 3M5"
+    },
+      minc: "CAMD-1234-5679",
+      created: "2013-03-01",
+      approval: ""
+    }
+  ])
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">

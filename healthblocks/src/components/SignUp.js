@@ -61,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  React.useEffect(() => {
+    document.title = 'HeathBlocks'
+  });
+
   const classes = useStyles()
   const history = useHistory()
   const {dt}= useParams()

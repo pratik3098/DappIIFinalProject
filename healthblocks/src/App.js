@@ -16,6 +16,9 @@ import {
 
 
 export default function App() {
+  React.useEffect(() => {
+    document.title = 'HeathBlocks'
+  });
   return (
     <Router>
       <div>
@@ -39,7 +42,7 @@ export default function App() {
             <SignIn />
           </Route>
           <Route path="/">
-            <SignUp />
+          <SignIn />
           </Route>
         </Switch>
       </div>

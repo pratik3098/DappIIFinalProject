@@ -17,8 +17,8 @@ exports.generateWallet= async function (){
 
 
 exports.deployContract= async function(type){
-   if(Boolean(wallet)){
-
+    let provider=ethers.getDefaultProvider(config.wallet.network)
+    wallet = new ethers.Wallet(config.wallet.privateKey, provider)
  return new Promise((resolve,reject)=>{
     if (type=="Doctor"){
         abi=Doctor.abi
@@ -75,8 +75,5 @@ exports.deployContract= async function(type){
      }
  })
 
-}
-else{
-  await generateWallet().catch(err=>{console.error(err.message)})
-}
+
 }

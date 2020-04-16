@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const history = useHistory()
   const classes = useStyles();
+  React.useEffect(() => {
+    document.title = 'HeathBlocks'
+  });
   const[email, setEmail]=React.useState('')
   const[password, setPassowrd]= React.useState('')
 
@@ -71,12 +74,18 @@ export default function SignIn() {
 
   const onClickSubmit=(ev)=>{
 
-    axios.post('http://'+server.host+':'+server.port+'/auth',{
+    axios.post('http://'+server.host+':'+server.port+'/auth/signin',{
+      data:{
       email: email,
       password: password
-    })
+      }
+    }).then(res=>{
+      console.log(res)
       history.push("/dashboard")
-   
+    }).catch(err=>{
+      console.error(err.message)
+    })
+      
   }
   return (
     <Container component="main" maxWidth="xs">
