@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function AdminSignIn() {
   const history = useHistory()
   const classes = useStyles();
   const[email, setEmail]=React.useState('')
@@ -75,7 +75,7 @@ export default function SignIn() {
       email: email,
       password: password
     })
-     history.push("/admin")
+     history.push("/adminBoard")
    
   }
   return (

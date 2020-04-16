@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import SignIn from './components/SignIn.js';
+import AdminSignIn from './components/adminSignIn.js';
 import SignUp from './components/SignUp.js';
 import SignUpForm from './components/SignUpForm.js';
 import ApprovalApp from './components/adminApproval.js'
@@ -22,8 +23,11 @@ export default function App() {
           <Route path="/signin">
             <SignIn />
           </Route>
-          <Route path="/admin">
+          <Route path="/adminBoard">
             <ApprovalApp/>
+          </Route>
+          <Route path="/admin">
+            <AdminSignIn/>
           </Route>
           <Route path="/signup">
             <SignUp />

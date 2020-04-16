@@ -106,8 +106,7 @@ export default function SignUp() {
               id: "outlined-age-native-simple"
             }}
           >
-            <option aria-label="None" value="" />
-            <option value={"Patient"}>Patient</option>
+            <option aria-label="Patient" value={"Patient"}>Patient</option>
             <option value={"Doctor"}>Doctor</option>
             <option value={"Pharmacy"}>Pharmacist</option>
           </Select>
@@ -132,11 +131,9 @@ export default function SignUp() {
 
     if(type==="Doctor" || type==="Pharmacy")
     history.push({pathname: "/signupform", state:{data: data}})
-    else if (type==="Patient")
-    history.push("/dashboard")
-    
+    else 
+    history.push({pathname: "/dashboard", state:{data:data} })
 
-  
   }
 
   return (
