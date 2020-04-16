@@ -75,7 +75,7 @@ export default function SignIn() {
       email: email,
       password: password
     })
-      history.push("/dashboard")
+     history.push("/admin")
    
   }
   return (

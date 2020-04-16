@@ -11,11 +11,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import axios from "axios";
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { DropzoneDialog } from "material-ui-dropzone";
 import Container from '@material-ui/core/Container';
+import { useHistory} from "react-router-dom";
+import axios from 'axios';
+import {server} from '../configData.js';
 const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
@@ -50,17 +52,30 @@ const useStyles = makeStyles((theme) => ({
       }
   }));
 
-export default function SignUpForm(data){
-    console.log(data)
+export default function SignUpForm(props){
+    const history=useHistory()
+    
+    const[data,setData]=React.useState(history.location.state.data)
+    const[license,setLicense]=React.useState('')
     const classes = useStyles();
   const [state, setState] = React.useState({
     type: ""
   });
   
   
-const onClickRedirect= event =>{
-   
-    console.log("Type: "+state["type"])
+const onClickRedirect= (ev) =>{
+  let newData=  Object.assign({}, data ,{license: license})
+  axios.post('http://'+server.host+':'+server.port+'/auth',{
+    data:  newData
+  }).then(res=>{
+    console.log(res)
+  })
+  
+  return(
+    <div>
+      <Typography> You application is in approval process!</Typography>
+    </div>
+  )
   }
 
   return (
@@ -79,7 +94,7 @@ const onClickRedirect= event =>{
                 fullWidth
                 id="firstName"
                 label="First Name"
-                defaultValue="Pratik"
+                defaultValue={data.fname}
                 autoFocus
               />
             </Grid>
@@ -92,7 +107,7 @@ const onClickRedirect= event =>{
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
-                defaultValue="Patil"
+                defaultValue={data.lname}
               />
             </Grid>
             <Grid item xs={12}>
@@ -103,7 +118,7 @@ const onClickRedirect= event =>{
                 id="type"
                 label="Type"
                 name="type"
-                defaultValue="Doctor"
+                defaultValue={data.type}
                 autoComplete="type"
                 disabled="disabled"
               />
@@ -116,7 +131,7 @@ const onClickRedirect= event =>{
                 id="email"
                 label="Email Address"
                 name="email"
-                defaultValue="pratik3098@gmail.com"
+                defaultValue={data.email}
                 disabled="disabled"
                 autoComplete="email"
               />
@@ -131,6 +146,7 @@ const onClickRedirect= event =>{
                 label="MINC"
                 placeholder="CAMD-1234-5679"
                 name="minc"
+                onChange={(ev)=>{setLicense(ev.target.value)}}
               />
             </Grid>):
            
@@ -143,12 +159,13 @@ const onClickRedirect= event =>{
                 label="OCP"
                 placeholder="12345"
                 name="ocp"
+                onChange={(ev)=>{setLicense(ev.target.value)}}
               />
             </Grid>)
           }
           </Grid>
           <Button
-           type="submit"
+            onClick={onClickRedirect}
             fullWidth
             variant="contained"
             color="primary"

@@ -17,13 +17,14 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Regex from "regex";
 import axios from 'axios';
+import {server} from '../configData.js';
 import {
   useHistory,
   Route,
   BrowserRouter as Router,
   useParams
 } from "react-router-dom";
-import {server} from '../configData.js'
+
 const emailvalidationPattern= `^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$;`
 const regex = new Regex(emailvalidationPattern);
 function Copyright() {
@@ -129,13 +130,12 @@ export default function SignUp() {
       data: data
     })
 
-    // if(type==="Doctor" || type==="Pharmacy")
-      history.push({pathname: "/signupform", state: data})
-    // else if (type==="Patient")
-    // history.push("/dashboard")
-
-
+    if(type==="Doctor" || type==="Pharmacy")
+    history.push({pathname: "/signupform", state:{data: data}})
+    else if (type==="Patient")
+    history.push("/dashboard")
     
+
   
   }
 
