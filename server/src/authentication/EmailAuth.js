@@ -17,9 +17,9 @@ firebase.initializeApp(firebaseConfig)
                 creationTime: user.metadata.creationTime
             })
         }).catch(function(error) {
-            console.error("Inital SignUp: "+error.code+" "+error.message)
-            console.error("Email: "+user.providerData[0].email )
-            console.error("Auth Type: "+ user.providerData[0].providerId)
+            console.log("Inital SignUp: "+error.code+" "+error.message)
+            console.log("Email: "+email )
+            console.log("Auth Type: passwword")
             reject("Inital SignUp: "+error.code+" "+error.message)
           })
     })
@@ -41,9 +41,9 @@ exports.signInEmail= async function  (email, password){
         })
        
     }).catch(function(error) {
-        console.error("SignIn: "+error.code+" "+error.message)
-        console.error("Email: "+user.providerData[0].email )
-        console.error("Auth Type: "+ user.providerData[0].providerId)
+        console.log("SignIn: "+error.code+" "+error.message)
+        console.log("Email: "+user.providerData[0].email )
+        console.log("Auth Type: "+ user.providerData[0].providerId)
         reject("SignIn: "+error.code+" "+error.message)
       })
     })
