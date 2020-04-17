@@ -1,6 +1,7 @@
 const express = require('express')
 const path=require('path')
 const sha256=require('sha256')
+const moment=require("moment")
 const router = express.Router()
 const config = require(path.resolve(__dirname,'../config/configData.js'))
 const auth=require(path.resolve(__dirname,"../src/authentication/emailAuth.js"))
@@ -11,21 +12,27 @@ router.post('/signin',function(req,res, next){
 
   auth.signInEmail(req.body.data.email,req.body.data.password).then(result=>{
     console.log(result)
-    return res.status(200).send({
-      success: 'true',
-      data: { email: result.email,
-         authenticated: true,
-         isAdmin: false,
-         authenticationTime: Date.now()
-      // More parameters can be added here 
-      }
+    database.readUserData(sha256(req.body.data.email)).then(res2=>{
+      console.log(res2)
+      return res.status(200).send({
+        success: 'true',
+        data: { 
+           email: result.email,
+           authenticated: true,
+           isAdmin: false,
+           authenticationTime: moment(Date.now()).format(),
+           data: res2
+      
+        }
+    })
+
   })
   }).catch(err=>{
     console.log(err.message)
     return res.status(404).send({
         success: 'false',
         message: err.message,
-        authenticationTime: Date.now()
+        authenticationTime: moment(Date.now()).format()
     })
 })
 })
@@ -40,15 +47,15 @@ router.post('/signinadmin',function(req,res, next){
         email: result.email,
          authenticated: true,
          isAdmin: true,
-         authenticationTime: Date.now()
+         authenticationTime: moment(Date.now()).format()
       }
   })
   }).catch(err=>{
-    console.error(err.message)
+    console.log(err.message)
     return res.status(404).send({
         success: 'false',
         message: err.message,
-        authenticationTime: Date.now()
+        authenticationTime: moment(Date.now()).format()
     })
 })
 })
@@ -75,7 +82,7 @@ router.post('/signup',function(req,res, next){
         data: { email: result.email,
            authenticated: true,
            isAdmin: false,
-           authenticationTime: Date.now()
+           authenticationTime: moment(Date.now()).format()
         }
     })
     
@@ -86,7 +93,7 @@ router.post('/signup',function(req,res, next){
     return res.status(404).send({
         success: 'false',
         message: err.message,
-        authenticationTime: Date.now()
+        authenticationTime: moment(Date.now()).format()
     })
 })
 })

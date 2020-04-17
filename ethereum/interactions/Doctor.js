@@ -12,7 +12,7 @@ module.exports=class Doctor{
         this.contract=this.contract.connect(new ethers.Wallet(config.wallet.privateKey, provider))
         }
         catch(err){
-            console.error(err.message)
+            console.log(err.message)
         }
     }
 
@@ -47,7 +47,7 @@ async isPatientAssigned(_patientAddress){
         return res
         }
         catch(err){
-            console.error(err.message)
+            console.log(err.message)
         }
 }
 
@@ -58,7 +58,7 @@ async verifySender(_doctorAddress){
     return res
     }
     catch(err){
-        console.error(err.message)
+        console.log(err.message)
     }
    
 }

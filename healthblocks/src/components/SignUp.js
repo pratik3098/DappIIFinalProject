@@ -129,14 +129,22 @@ export default function SignUp() {
       type: type
     }
     
-    axios.post('http://'+server.host+':'+server.port+'/auth',{
-      data: data
+ 
+      
+     if(type==="Doctor" || type==="Pharmacy")
+     history.push({pathname: "/signupform", state:{data: data}})
+     else 
+     {
+      axios.post('http://'+server.host+':'+server.port+'/auth/signup',{
+        data: data
+      }).then(res=>{
+        console.log(res)
+     history.push({pathname: "/dashboard", state:{data:res.data.data} })
+    }).catch(err=>{
+      console.log(err.message)
     })
+  }
 
-    if(type==="Doctor" || type==="Pharmacy")
-    history.push({pathname: "/signupform", state:{data: data}})
-    else 
-    history.push({pathname: "/dashboard", state:{data:data} })
 
   }
 
@@ -224,7 +232,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signin" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

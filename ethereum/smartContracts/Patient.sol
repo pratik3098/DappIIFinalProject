@@ -10,7 +10,7 @@ contract Patient{
   event presVerified(bytes32 pres, bool sign);
   event prescriptionAdded(address doctor, bytes32 prescription);
   
-  constructor(address _owner) public {
+  constructor(_owner) public {
       owner= _owner;
   }
   

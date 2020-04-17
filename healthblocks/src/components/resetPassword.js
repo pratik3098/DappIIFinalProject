@@ -51,33 +51,35 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    textTransform: "Capitalize"
   },
+  button:{
+    textTransform: "Capitalize"
+  }
 }));
 
-export default function SignIn() {
+export default function ResetPassword() {
   const history = useHistory()
-  const classes = useStyles();
+  const classes = useStyles()
   React.useEffect(() => {
     document.title = 'HeathBlocks'
   });
+  const[data,setData]=React.useState('')
+  if (Boolean(history.location.state))
+  setData(history.location.state.data)
   const[email, setEmail]=React.useState('')
-  const[password, setPassowrd]= React.useState('')
 
-  const onChangePassword=(ev)=>{
-    setPassowrd(ev.target.value)
 
-  }
+
 
   const onClickSubmit=(ev)=>{
 
-    axios.post('http://'+server.host+':'+server.port+'/auth/signin',{
+    axios.post('http://'+server.host+':'+server.port+'/auth/resetPassword',{
       data:{
       email: email,
-      password: password
       }
     }).then(res=>{
-      console.log(res.data.data)
-     // history.push({pathname:"/dashboard", state:{data: res.data.data}})
+      history.push("/dashboard")
     }).catch(err=>{
       console.log(err.message)
     })
@@ -91,7 +93,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Reset Password
         </Typography>
         <form className={classes.form} noValidate >
           <TextField
@@ -100,49 +102,24 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email"
+            label="Email Address"
             name="email"
-            onChange={(ev)=>{  setEmail(ev.target.value)}}
+            onChange={(ev)=>{setEmail(ev.target.value)}}
             autoComplete="email"
             autoFocus
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            onChange={onChangePassword}
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+         
           <Button
             onClick={onClickSubmit}
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+        
           >
-            Sign In
+            Send Reset Link
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+         
         </form>
       </div>
       <Box mt={8}>

@@ -6,19 +6,11 @@ const Doctor=require(path.resolve(__dirname, "./smartContracts/abi/Doctor.js"))
 const Pharmacy=require(path.resolve(__dirname, "./smartContracts/abi/Pharmacy.js"))
 const Registry=require(path.resolve(__dirname, "./smartContracts/abi/Registry.js"))
 
-let wallet
-let abi
-let bytecode
-
-exports.generateWallet= async function (){
-    let provider=ethers.getDefaultProvider(config.wallet.network)
-    wallet = new ethers.Wallet(config.wallet.privateKey, provider)
-}
-
-
 exports.deployContract= async function(type){
     let provider=ethers.getDefaultProvider(config.wallet.network)
-    wallet = new ethers.Wallet(config.wallet.privateKey, provider)
+    let wallet = new ethers.Wallet(config.wallet.privateKey, provider)
+    let abi
+   let bytecode
  return new Promise((resolve,reject)=>{
     if (type=="Doctor"){
         abi=Doctor.abi
@@ -38,11 +30,9 @@ exports.deployContract= async function(type){
      try{
          let contractAddress
         let factory = new ethers.ContractFactory(abi, bytecode, wallet)
-        factory.deploy().then(contract=>{
+        factory.deploy(wallet.address).then(contract=>{
             contractAddress=contract.address
-        }).then(contract=>{
             contract.deployed().then((contract)=>{
-
             let registryContract=new ethers.Contract(config.registryContract, Registry.abi, provider)
             registryContract=registryContract.connect(new ethers.Wallet(config.wallet.privateKey, provider))
             if(type=="Patient") 
@@ -64,11 +54,9 @@ exports.deployContract= async function(type){
             console.log(contractAddress)
             resolve(contractAddress)
             })
-        })
-        
-     
-        
-     }
+       
+     })
+    }
      catch(err){
          console.log(err.message)
          reject(err.message)

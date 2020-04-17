@@ -3,7 +3,7 @@ contract Pharmacy{
   address owner;
   mapping(bytes32=>address) disprensedPrescriptions;
   event dispensePrescription(bytes32 _pres, address _patient) ;
-  constructor(address _owner) public {
+  constructor(_owner) public {
       owner= _owner;
   }
   

@@ -74,11 +74,17 @@ export default function AdminSignIn() {
 
   const onClickSubmit=(ev)=>{
 
-    axios.post('http://'+server.host+':'+server.port+'/auth',{
+    axios.post('http://'+server.host+':'+server.port+'/auth/signinadmin',{
+      data:{
       email: email,
       password: password
+      }
+    }).then(res=>{
+      console.log(res)
+      history.push("/adminDashboard")
+    }).catch(err=>{
+      console.log(err.message)
     })
-     history.push("/adminBoard")
    
   }
   return (

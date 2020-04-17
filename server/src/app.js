@@ -7,6 +7,7 @@ const moment=require('moment')
 const config = require('../config/configData.js')
 const app = express()
 const authRouter= require("../routes/auth.js")
+const dbRouter=require("../routes/admin.js")
 const indexRouter= require("../routes/index.js")
 app.set('title','facedrive db')
 app.set('view engine','hbs')
@@ -22,6 +23,7 @@ app.use(function(req,res,next){
     next()
 })
 app.use('/auth',  authRouter)
+app.use('/admin', dbRouter)
 app.use('/',  indexRouter)
 app.use(upload({
     useTempFiles : true,

@@ -20,5 +20,27 @@ exports.addUserData= async  function(userName, data) {
 
  }
 
+exports.readUserData=async  function (userName){
+    return new Promise((resolve,reject)=>{
+        try{
+            firebase.database().ref('/users/' + userName).once('value').then(function(res){
+                resolve(res.val().data)
+            })
+        }catch(err){
+            reject(err.message)
+        }
+    })
+}
 
 
+exports.readAllData=async  function (){
+    return new Promise((resolve,reject)=>{
+        try{
+            firebase.database().ref('/users/').once('value').then(function(res){
+                resolve(Object.values(res.val()))
+            })
+        }catch(err){
+            reject(err.message)
+        }
+    })
+}

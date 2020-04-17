@@ -15,10 +15,8 @@ import PopupState, { bindTrigger, bindPopover, bindMenu } from "material-ui-popu
 import Grid from "@material-ui/core/Grid";
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import axios from 'axios';
+import {server} from '../configData.js';
 const useStyles = makeStyles({
   table: {
     minWidth: 650
@@ -60,25 +58,21 @@ export default function AprovalApp(){
 }
 export function ApprovalTable() {
   const classes = useStyles();
-  const [rows,setRows]= React.useState([
-    { 
-      
-      email: "pratik3098@gmail.com",
-      details: {
-          name: "Pratik Patil",
-          dob:  "30/09/1998",
-          practiseStart: "1/12/2001"
-      },
-      type: "Doctor",
-      affiliation: {
-      name: "SunnyBrook Hospital",
-      address: "2075 Bayview Ave, Toronto, ON M4N 3M5"
-    },
-      minc: "CAMD-1234-5679",
-      created: "2013-03-01",
-      approval: ""
-    }
-  ])
+  const [rows,setRows]= React.useState([])
+  React.useEffect(()=>{
+    axios.get('http://'+server.host+':'+server.port+'/admin/approvaldata').then(res=>{
+      if(Boolean(res.data.data)){
+        let temp=[]
+       res.data.data.map(row=>{
+         temp.push(row.data)
+       })
+       console.log(temp)
+      }
+     // history.push({pathname:"/dashboard", state:{data: res.data.data}})
+    }).catch(err=>{
+      console.log(err.message)
+    })
+  },[])
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">

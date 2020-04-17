@@ -3,8 +3,9 @@ import logo from './logo.svg';
 import SignIn from './components/SignIn.js';
 import AdminSignIn from './components/adminSignIn.js';
 import SignUp from './components/SignUp.js';
+import ResetPassword from './components/resetPassword.js';
 import SignUpForm from './components/SignUpForm.js';
-import ApprovalApp from './components/adminApproval.js'
+import ApprovalApp from './components/adminApproval.js';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -26,7 +27,7 @@ export default function App() {
           <Route path="/signin">
             <SignIn />
           </Route>
-          <Route path="/adminBoard">
+          <Route path="/adminDashboard">
             <ApprovalApp/>
           </Route>
           <Route path="/admin">
@@ -41,8 +42,11 @@ export default function App() {
           <Route path="/dashboard">
             <SignIn />
           </Route>
+          <Route path="/resetPassword">
+            <ResetPassword />
+          </Route>
           <Route path="/">
-          <SignIn />
+          <ResetPassword />
           </Route>
         </Switch>
       </div>

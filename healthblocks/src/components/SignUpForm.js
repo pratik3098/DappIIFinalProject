@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
       }
   }));
 
-export default function SignUpForm(props){
+export default function SignUpForm(){
     const history=useHistory()
     React.useEffect(() => {
       document.title = 'HeathBlocks'
@@ -67,17 +67,14 @@ export default function SignUpForm(props){
   
 const onClickRedirect= (ev) =>{
   let newData=  Object.assign({}, data ,{license: license})
-  axios.post('http://'+server.host+':'+server.port+'/auth',{
+  axios.post('http://'+server.host+':'+server.port+'/auth/signup',{
     data:  newData
   }).then(res=>{
     console.log(res)
+    history.push("/signin")
   })
   
-  return(
-    <div>
-      <Typography> You application is in approval process!</Typography>
-    </div>
-  )
+
   }
 
   return (

@@ -12,7 +12,7 @@ module.exports=class Pharmacy{
         this.contract=this.contract.connect(new ethers.Wallet(config.wallet.privateKey, provider))
         }
         catch(err){
-            console.error(err.message)
+            console.log(err.message)
         }
     }
 
@@ -31,7 +31,7 @@ async isPrescDispensed(_prescription){
         return res
         }
         catch(err){
-            console.error(err.message)
+            console.log(err.message)
         }
 }
 
@@ -42,7 +42,7 @@ async verifySender(_doctorAddress){
     return res
     }
     catch(err){
-        console.error(err.message)
+        console.log(err.message)
     }
    
 }
