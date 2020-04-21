@@ -15,6 +15,9 @@ import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,7 +50,7 @@ const UsersByDevice = props => {
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [63, 3, 34],
         backgroundColor: [
           theme.palette.primary.main,
           theme.palette.error.main,
@@ -85,22 +88,23 @@ const UsersByDevice = props => {
 
   const devices = [
     {
-      title: 'Desktop',
+      title: 'Verified',
       value: '63',
-      icon: <LaptopMacIcon />,
+      icon: <VerifiedUserIcon />,
       color: theme.palette.primary.main
     },
+   
     {
-      title: 'Tablet',
-      value: '15',
-      icon: <TabletMacIcon />,
-      color: theme.palette.error.main
+      title: 'Non Prescription',
+      value: '34',
+      icon: <ThumbUpIcon />,
+      color: theme.palette.warning.main
     },
     {
-      title: 'Mobile',
-      value: '23',
-      icon: <PhoneIphoneIcon />,
-      color: theme.palette.warning.main
+      title: 'Rejected',
+      value: '3',
+      icon: <ThumbDownIcon/>,
+      color: theme.palette.error.main
     }
   ];
 

@@ -60,9 +60,9 @@ const TasksProgress = props => {
               gutterBottom
               variant="body2"
             >
-              TASKS PROGRESS
+              OREDERS VERIFIED
             </Typography>
-            <Typography variant="h3">75.5%</Typography>
+            <Typography variant="h3">417</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

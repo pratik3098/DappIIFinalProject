@@ -49,7 +49,7 @@ export default [
   {
     id: uuid(),
     name: 'Anje Keizer',
-    conAddress: "0x8A91C9A16cD62693649D80Afa85A09DBBdCb8508",
+    conAddress: "0x8A91C9A16cD62693649D80Afa85A09DBBdCb85",
     address: {
       country: 'CA',
       state: 'Ontario',
@@ -109,7 +109,7 @@ export default [
   {
     id: uuid(),
     name: 'Emilee Simchenko',
-    conAddress: "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
+    conAddress: "0xB8c77482e45F1F44dE1745F52C74426C631b521",
     address: {
       country: 'CA',
       state: 'Ontario',
@@ -124,7 +124,7 @@ export default [
   {
     id: uuid(),
     name: 'Kwak Seong-Min',
-    conAddress: "0x000000000000",
+    conAddress: "0x6f259637dcd74c767781e37bc6133cd6a68ee193",
     address: {
       country: 'USA',
       state: 'Michigan',

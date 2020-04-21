@@ -82,6 +82,7 @@ const LatestOrders = props => {
               <TableHead>
                 <TableRow>
                   <TableCell>Order Ref</TableCell>
+                  <TableCell>Wallet</TableCell>
                   <TableCell>Customer</TableCell>
                   <TableCell sortDirection="desc">
                     <Tooltip
@@ -106,6 +107,7 @@ const LatestOrders = props => {
                     key={order.id}
                   >
                     <TableCell>{order.ref}</TableCell>
+                    <TableCell>{order.conAddress}</TableCell>
                     <TableCell>{order.customer.name}</TableCell>
                     <TableCell>
                       {moment(order.createdAt).format('DD/MM/YYYY')}
