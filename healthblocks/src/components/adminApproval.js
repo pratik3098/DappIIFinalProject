@@ -61,12 +61,16 @@ export function ApprovalTable() {
   const [rows,setRows]= React.useState([])
   React.useEffect(()=>{
     axios.get('http://'+server.host+':'+server.port+'/admin/approvaldata').then(res=>{
+      let temp=[]
       if(Boolean(res.data.data)){
-        let temp=[]
+        let temp2
        res.data.data.map(row=>{
-         temp.push(row.data)
+        temp2=Object.assign({},row.data,{name: row.data.fname+" "+row.data.lname})
+         temp.push(temp2)
        })
-       console.log(temp)
+      console.log(temp)
+      setRows(temp)
+     
       }
      // history.push({pathname:"/dashboard", state:{data: res.data.data}})
     }).catch(err=>{
@@ -78,6 +82,7 @@ export function ApprovalTable() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
+          <TableCell align="center" className={classes.column}>Address</TableCell>
             <TableCell align="center" className={classes.column}>Email</TableCell>
             <TableCell align="center" className={classes.column}>Name</TableCell>
             <TableCell align="center" className={classes.column}>Type</TableCell>
@@ -89,11 +94,11 @@ export function ApprovalTable() {
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow key={row.email}>
-             <TableCell component="th" scope="row">{row.email} </TableCell>
-              <TableCell align="center"><PopoverPopupDetails dt={row.details}></PopoverPopupDetails></TableCell>`   `
+            <TableRow key={row.address}>
+              <TableCell component="th" scope="row">{row.address} </TableCell>
+              <TableCell align="center">{row.email} </TableCell>
+              <TableCell align="center">{row.name}</TableCell>`   `
               <TableCell align="center">{row.type}</TableCell>
-              <TableCell align="center"><PopoverPopupState dt={row.affiliation}></PopoverPopupState></TableCell>
               <TableCell align="center">{row.minc}</TableCell>
               <TableCell align="center">{row.created}</TableCell>
               <TableCell align="center"><ApprovalButton dt={{email: row.email, approval: row.approval}}></ApprovalButton></TableCell>
@@ -119,7 +124,7 @@ function PopoverPopupState(dt) {
             color="default"
             {...bindTrigger(popupState)}
           >
-            {dt.dt.name}
+            {dt.name}
           </Button>
           <Popover
             {...bindPopover(popupState)}
@@ -133,7 +138,7 @@ function PopoverPopupState(dt) {
             }}
           >
             <Box p={2}>
-              <Typography>Address: {dt.dt.address}</Typography>
+              <Typography>Address: {dt.address}</Typography>
             </Box>
           </Popover>
         </div>
@@ -154,7 +159,7 @@ function PopoverPopupDetails(dt) {
               color="default"
               {...bindTrigger(popupState)}
             >
-              {dt.dt.name}
+              {dt.name}
             </Button>
             <Popover
               {...bindPopover(popupState)}

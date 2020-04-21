@@ -32,7 +32,7 @@ services:
       - CORE_METRICS_ENABLED=false
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-    command: chmod 755 * && peer node start 2> peer.log &
+    command: peer node start 
     networks:
       - orderer_backend_network
     volumes:
@@ -120,7 +120,7 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=admin.healthblocks.com:7051
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
-    command: peer node start 
+    command: ./peer_files/admin-launch.sh
     links:
       - couchdb.admin.healthblocks.com
     volumes:
