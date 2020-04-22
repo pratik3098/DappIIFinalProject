@@ -11,8 +11,8 @@ import ImageIcon from '@material-ui/icons/Image';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-
-import { Profile, SidebarNav } from './components';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import {  SidebarNav } from './components';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -54,9 +54,9 @@ const Sidebar = props => {
       icon: <PeopleIcon />
     },
     {
-      title: 'Products',
+      title: 'EMR',
       href: '/products',
-      icon: <ShoppingBasketIcon />
+      icon: <LocalHospitalIcon />
     },
     {
       title: 'Authentication',
@@ -97,7 +97,6 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile />
         <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}
