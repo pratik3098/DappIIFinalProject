@@ -6,7 +6,7 @@ import SignUp from './components/SignUp.js';
 import ResetPassword from './components/resetPassword.js';
 import SignUpForm from './components/SignUpForm.js';
 import ApprovalApp from './components/adminApproval.js';
-import ProductList from './components/ProductList/ProductList.js'
+import App1 from './components/dashboard/src/App.js'
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -47,7 +47,7 @@ export default function App() {
             <ResetPassword />
           </Route>
           <Route path="/">
-          <ProductList />
+          <App1 />
           </Route>
         </Switch>
       </div>
