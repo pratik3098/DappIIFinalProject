@@ -139,7 +139,7 @@ export default function SignUp() {
         data: data
       }).then(res=>{
         console.log(res)
-     history.push({pathname: "/dashboard", state:{data:res.data.data} })
+     history.push({pathname: "/signin", state:{data:res.data.data} })
     }).catch(err=>{
       console.log(err.message)
     })

@@ -41,13 +41,13 @@ export default function App() {
             <SignUpForm />
           </Route>
           <Route path="/dashboard">
-            <SignIn />
+            <App1 />
           </Route>
           <Route path="/resetPassword">
             <ResetPassword />
           </Route>
           <Route path="/">
-          <App1 />
+          <SignIn />
           </Route>
         </Switch>
       </div>

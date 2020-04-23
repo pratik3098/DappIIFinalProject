@@ -77,7 +77,7 @@ export default function SignIn() {
       }
     }).then(res=>{
       console.log(res.data.data)
-     // history.push({pathname:"/dashboard", state:{data: res.data.data}})
+      history.push({pathname:"/dashboard", state:{data: res.data.data}})
     }).catch(err=>{
       console.log(err.message)
     })
