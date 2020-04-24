@@ -69,6 +69,9 @@ class EntityContract extends Contract {
   }
 
 
+
+
+
 }
 
 module.exports = EntityContract;
